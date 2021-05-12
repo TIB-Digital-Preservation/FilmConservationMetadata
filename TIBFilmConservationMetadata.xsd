@@ -1,0 +1,203 @@
+ <!--
+ Change history from version 1.0 to 2.0
+ -Schema name changed from DelftConservationMetadata.xsd to TIBFilmConservationMetadata.xsd
+ -added namespace: xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ -added layer metadata, ie, representation
+ -shrinkage: was mandatory, is now optional, changed spelling error in description
+ -perforation_damage: was monitored during first digitization project, but holdings are homogenously not damaged, therefore not mandatory in following projects.
+ -splice_count: was monitored during first digitization project, but holdings are homogenously not damaged, therefore not mandatory in following projects.
+ -added optional information on audio streams: number of streams and source material
+ ______LICENSE______
+ CC-0 https://creativecommons.org/publicdomain/zero/1.0/deed.de
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="metadata">
+		<xs:complexType>
+			<xs:sequence> 
+				<xs:element name="ie">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Intellektuelle Einheit</xs:documentation>
+						<xs:documentation xml:lang="en">intellectual entity</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence> 
+							<xs:element name="identifier">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="mamid" type="xs:integer">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Identifier aus dem MediaAssetManagementSystem</xs:documentation>
+												<xs:documentation xml:lang="en">Identifier from MediaAssetManagementSystem</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="signature" type="xs:string">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">IWF Signatur</xs:documentation>
+												<xs:documentation xml:lang="en">IWF signature</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="representation">
+								<xs:annotation>
+									<xs:documentation xml:lang="de">Repräsentation</xs:documentation>
+									<xs:documentation xml:lang="en">representation</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="total_parts" type="xs:integer">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Anzahl der Filmrollen für diese IE</xs:documentation>
+												<xs:documentation xml:lang="en">Total number of filmreels for the given IE</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="reel" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Beschreibung der Filmrolle</xs:documentation>
+												<xs:documentation xml:lang="en">Description of the filmreel</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="part_no" type="xs:integer">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Nummer der Filmrolle</xs:documentation>
+															<xs:documentation xml:lang="en">Number of filmreel</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="copy" type="xs:string">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Um welche Kopie handelt es sich: AK = Archivkopie, VK = Verleihkopie</xs:documentation>
+															<xs:documentation xml:lang="en">Which copy is described: AK = archvial copy, VK = copy for rent</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="carrier_material" type="xs:string">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Trägermatrial</xs:documentation>
+															<xs:documentation xml:lang="en">Carrier material</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="information_film_container" type="xs:string">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Informationen die sich auf der Filmdose befinden</xs:documentation>
+															<xs:documentation xml:lang="en">Information on the film container</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="deformation" block="restriction">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Verwölbung des Files: keine, gering, mittel, stark</xs:documentation>
+															<xs:documentation xml:lang="en">Deformation of film: no, low, medium, high</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="keine"/>
+																<xs:enumeration value="gering"/>
+																<xs:enumeration value="mittel"/>
+																<xs:enumeration value="stark"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="shrinkage" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Schrumpfungswerte in Prozent, an mehreren Stellen gemessen: positive Werte zeigen Schrumpfung an, negative Werte Dehnung</xs:documentation>
+															<xs:documentation xml:lang="en">Values of shrinkage in percent, measured on several point: positive value show a shrinkage, negative values distension</xs:documentation> 
+														</xs:annotation>
+														<xs:complexType>
+															<xs:all>
+																<xs:element name="date_measured" type="xs:date">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Tag des Messung</xs:documentation>
+																		<xs:documentation xml:lang="en">Day of measurement</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="min_value" type="xs:decimal">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">niedrigster vorkommender Wert</xs:documentation>
+																		<xs:documentation xml:lang="en">minimum measured value</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="max_value" type="xs:decimal">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">höchster vorkommender Wert</xs:documentation>
+																		<xs:documentation xml:lang="en">maximum measured value</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="average" type="xs:decimal">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Schrumpfungswert im Durchschnitt</xs:documentation>
+																		<xs:documentation xml:lang="en">Average shrinkage</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:all>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ph_test" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">PH-Wert-Messung zur Bestimmung des Essigsäuresyndroms</xs:documentation>
+															<xs:documentation xml:lang="en">pH-value measurement in order to detect vinegar syndrome</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:all>
+																<xs:element name="date_measured" type="xs:date">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Tag der Messung</xs:documentation>
+																		<xs:documentation xml:lang="en">Day of measurement</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="value" type="xs:decimal">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">PH-Wert</xs:documentation>
+																		<xs:documentation xml:lang="en">PH-value</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:all>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="perforation_damage" minOccurs="0" type="xs:boolean">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Perforationsschäden: ja(1), nein (0)</xs:documentation>
+															<xs:documentation xml:lang="en">Performation damage: yes(1), no (0)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="splice_count" minOccurs="0" type="xs:integer">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Anzahl der Klebestellen</xs:documentation>
+															<xs:documentation xml:lang="en">Number of Splices</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="audio" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Beschreibung der Audiostreams</xs:documentation>
+												<xs:documentation xml:lang="en">Description of the audio streams</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="audio_stream_no" type="xs:integer">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Nummer des Audiostreams</xs:documentation>
+															<xs:documentation xml:lang="en">Number of audio stream</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="signal_base" type="xs:string">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Auf welchem Material ist das Signal erfasst: LT = Lichtton, MT = separater Magnetton</xs:documentation>
+															<xs:documentation xml:lang="en">An which material is the signal saved: LT = optical sound, MT = separate magnetic sound</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:decimal" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
