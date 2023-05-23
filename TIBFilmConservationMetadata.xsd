@@ -187,6 +187,12 @@
 															<xs:documentation xml:lang="en">An which material is the signal saved: LT = optical sound, MT = separate magnetic sound</xs:documentation>
 														</xs:annotation>
 													</xs:element>
+													<xs:element name="information_audio_container" type="xs:string" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Informationen die sich auf der Verpackung des Tonträgers befinden</xs:documentation>
+															<xs:documentation xml:lang="en">Information on the audio container</xs:documentation>
+														</xs:annotation>
+														</xs:element>
 												</xs:all>
 											</xs:complexType>
 										</xs:element>
